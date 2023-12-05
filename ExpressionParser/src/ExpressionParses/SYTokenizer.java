@@ -2,6 +2,7 @@ package ExpressionParses;
 
 import java.util.*;
 import java.util.function.DoubleBinaryOperator;
+import java.util.regex.Pattern;
 
 
 public class SYTokenizer {
@@ -17,7 +18,17 @@ public class SYTokenizer {
 
         int parseCharPosition = 0;
         int numTokenIndex = 0;
-        String[] numbers = expression.split(Arrays.toString(operators.keySet().toArray()));;
+        StringBuilder sb = new StringBuilder();
+        for (Object o : operators.keySet().toArray()) {
+            if(sb.length() > 0){
+                sb.append("|");
+            }
+            sb.append("\\");
+            sb.append(o);
+        }
+
+        String formattedString = sb.toString();
+        String[] numbers = expression.split(formattedString);;
 
         for (String num: numbers){
             numTokenIndex = expression.indexOf(num, parseCharPosition);
